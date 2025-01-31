@@ -9,7 +9,7 @@ namespace BusinessEntities
         private readonly List<string> _tags = new List<string>();
         private int _age;
         private string _email;
-        private decimal? _monthlySalary;
+        private decimal? _monthlySalary = 0;
         private string _name;
         private UserTypes _type = UserTypes.Employee;
 
@@ -62,24 +62,28 @@ namespace BusinessEntities
         {
             if (string.IsNullOrEmpty(email))
             {
-                throw new ArgumentNullException("Name was not provided.");
+                throw new ArgumentNullException("Email was not provided.");
             }
             _email = email;
         }
 
         public void SetType(UserTypes type)
         {
+            if (!Enum.IsDefined(typeof(UserTypes), type))
+            {
+                throw new ArgumentNullException("UserType was not valid.");
+            }
             _type = type;
         }
 
         public void SetAge(int age)
         {
-            _email = _name;
+            _age = age;
         }
 
-        public void SetMonthlySalary(decimal? monthlySalary)
+        public void SetMonthlySalary(decimal? annualSalary)
         {
-            _monthlySalary = monthlySalary;
+            _monthlySalary = annualSalary.HasValue ? annualSalary / 12 : 0;
         }
 
         public void SetTags(IEnumerable<string> tags)

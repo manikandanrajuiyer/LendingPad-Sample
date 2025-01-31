@@ -11,6 +11,11 @@ namespace WebApi.Controllers
             return ControllerContext.Request.CreateResponse(HttpStatusCode.OK, obj);
         }
 
+        public new HttpResponseMessage BadRequest(string message)
+        {
+            return ControllerContext.Request.CreateResponse(HttpStatusCode.BadRequest, message);
+        }
+
         public HttpResponseMessage Found()
         {
             return ControllerContext.Request.CreateResponse(HttpStatusCode.OK);
@@ -19,6 +24,16 @@ namespace WebApi.Controllers
         public HttpResponseMessage DoesNotExist()
         {
             return ControllerContext.Request.CreateResponse(HttpStatusCode.NotFound);
+        }
+
+        public HttpResponseMessage Conflict(string message)
+        {
+            return ControllerContext.Request.CreateResponse(HttpStatusCode.Conflict, message);
+        }
+
+        public HttpResponseMessage NoContent()
+        {
+            return ControllerContext.Request.CreateResponse(HttpStatusCode.NoContent);
         }
     }
 }

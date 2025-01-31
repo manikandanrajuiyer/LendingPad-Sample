@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using BusinessEntities;
 using Common;
@@ -49,8 +50,18 @@ namespace Data.Repositories
                 }
                 query = query.WhereEquals("Email", email);
             }
-            return query.ToList();
+            return query?.ToList();
         }
+
+        public IEnumerable<User> Get(string tag)
+        {
+            var query = _documentSession.Advanced.DocumentQuery<User, UsersListIndex>();
+
+            // is it a right way to filter condisering performance of RavenDB?
+            // is there a better way?
+            return query.ToList().Where(user => user.Tags.Any(tags => string.Equals(tags, tag, StringComparison.OrdinalIgnoreCase)));
+        }
+      
 
         public void DeleteAll()
         {
